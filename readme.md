@@ -1,1 +1,1 @@
-Program made to find hidden folders (and files) automatically so you don't need to test by yourself. Don't use this, use a better program!
+Program made to find hidden folders (and files) automatically so you don't need to test by yourself. Don't use this, use a better program.
