@@ -1,7 +1,11 @@
+# TODO:
+# Make so it doesn't only check the root of input. Make it recursive.
+# This can be done by saving the results into an array and than go throu the array.
+
 # Automaticly search websites for directories and files
 # Need wordlist, get one from internet, it's a great place!
 
-# Only checks root folder
+# Only checks root input
 
 import sys
 import requests
