@@ -26,29 +26,7 @@ def main(argv):
     wordlist = [''] # All words from wordlist
     okaysites = [''] # All sites with a valid URL
 
-
-    # Check if wordlist exists
-    try:
-        open(wordlistfile)
-    except:
-        print('File not found!')
-        sys.exit(1)
-
-    try:
-        # Add a / in the end of URL
-        if website[-1] != '/':
-            website = website + '/'
-
-        # Add http or https to URL
-        if website.find('http://', 0, 7) == -1 and website.find('https://', 0, 8) == -1:
-            print('Did not find HTTP, adding for you. Running in 2 sec again.')
-            website = 'http://' + website
-            time.sleep(2)
-
-        requests.get(website)
-    except:
-        print('Failed to find website!')
-        sys.exit(2)
+    website = checkForErrorsInStartup(website, wordlistfile) # Check for errors in URL typing
 
     # Save all words to wordlist array
     with open(wordlistfile, 'r') as  f:
@@ -74,6 +52,32 @@ def main(argv):
     # If recursive is choosen (argv[3] == 1)
     if recursive == 1:
         print('This does not work right now')
+
+def checkForErrorsInStartup(website, wordlist):
+    # Check if wordlist exists
+    try:
+        open(wordlist)
+    except:
+        print('File not found!')
+        sys.exit(1)
+
+    try:
+        # Add a / in the end of URL
+        if website[-1] != '/':
+            website = website + '/'
+
+        # Add http or https to URL
+        if website.find('http://', 0, 7) == -1 and website.find('https://', 0, 8) == -1:
+            print('Did not find HTTP, adding for you. Running in 2 sec again.')
+            website = 'http://' + website
+            time.sleep(2)
+
+        requests.get(website)
+    except:
+        print('Failed to find website!')
+        sys.exit(2)
+
+    return website
 
 if __name__ == '__main__':
     # Check so program got an input, tell how it works
