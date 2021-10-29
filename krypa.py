@@ -66,6 +66,6 @@ def main(argv):
 if __name__ == '__main__':
     # Check so program got an input, tell how it works
     if(len(sys.argv)) <3:
-        print('How to use:\npython krypa.py WORDLIST WEBSITE')
+        print('How to use:\npython krypa.py WEBSITE WORDLIST')
         sys.exit(1)
     main(sys.argv[1:])
