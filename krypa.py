@@ -14,6 +14,14 @@ import time
 def main(argv):
     website = sys.argv[1]
     wordlistfile = sys.argv[2]
+    recursive = ''
+
+    # Check if recursive is 1 or something else, if not 1 give it 0
+    if len(sys.argv) >= 4:
+        if sys.argv[3] == '1':
+            recursive = 1
+        else:
+            recursive = 0
 
     wordlist = [''] # All words from wordlist
     okaysites = [''] # All sites with a valid URL
@@ -63,9 +71,13 @@ def main(argv):
 
         print(i , ' of ' , len(wordlist))
 
+    # If recursive is choosen (argv[3] == 1)
+    if recursive == 1:
+        print('This does not work right now')
+
 if __name__ == '__main__':
     # Check so program got an input, tell how it works
-    if(len(sys.argv)) <3:
-        print('How to use:\npython krypa.py WEBSITE WORDLIST')
+    if len(sys.argv) < 3:
+        print('How to use:\npython krypa.py WEBSITE WORDLIST N')
         sys.exit(1)
     main(sys.argv[1:])
