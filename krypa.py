@@ -2,6 +2,10 @@
 # Make so it doesn't only check the root of input. Make it recursive.
 # This can be done by saving the results into an array and than go throu the array.
 
+# Also check for more error than 404 since that is just for testing
+
+# -----
+
 # Automaticly search websites for directories and files
 # Need wordlist, get one from internet, it's a great place!
 
