@@ -28,7 +28,7 @@ def main(argv):
             recursive = 0
 
     wordlist = [''] # All words from wordlist
-    okaysites = [''] # All sites with a valid URL
+    #okaysites = [''] # All sites with a valid URL
 
     website = checkForErrorsInStartup(website, wordlistfile) # Check for errors in URL typing
 
@@ -39,6 +39,17 @@ def main(argv):
 
     currenttime = time.time() # starttime for scan
 
+    runSites(website, wordlist) # Check for hidden files and directories
+    
+    # If recursive is choosen (argv[3] == 1)
+    if recursive == 1:
+        print('This does not work right now')
+
+    currenttime = time.time() - currenttime # New time after all searches
+    print('Time: ', round(currenttime, 2), 's')
+
+def runSites(website, wordlist):
+    okaysites = ['']
     for i in range(0, len(wordlist)):
         s = website + wordlist[i] # Check site + wordlist. https://example.com/api <-- Example
         r = requests.get(s) # Make a HTTP requst
@@ -54,13 +65,6 @@ def main(argv):
             print(x)
 
         print(i+1 , ' of ' , len(wordlist))
-
-    # If recursive is choosen (argv[3] == 1)
-    if recursive == 1:
-        print('This does not work right now')
-
-    currenttime = time.time() - currenttime # New time after all searches
-    print('Time: ', round(currenttime, 2), 's')
 
 def checkForErrorsInStartup(website, wordlist):
     # Check if wordlist exists
