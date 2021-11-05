@@ -19,6 +19,7 @@ def main(argv):
     website = sys.argv[1]
     wordlistfile = sys.argv[2]
     recursive = ''
+    okaysites = [''] # Save found sites
 
     # Check if recursive is 1 or something else, if not 1 give it 0
     if len(sys.argv) >= 4:
@@ -28,7 +29,6 @@ def main(argv):
             recursive = 0
 
     wordlist = [''] # All words from wordlist
-    #okaysites = [''] # All sites with a valid URL
 
     website = checkForErrorsInStartup(website, wordlistfile) # Check for errors in URL typing
 
@@ -39,17 +39,18 @@ def main(argv):
 
     currenttime = time.time() # starttime for scan
 
-    runSites(website, wordlist) # Check for hidden files and directories
+    okaysites = runSites(website, wordlist, okaysites) # Check for hidden files and directories for first time
     
     # If recursive is choosen (argv[3] == 1)
     if recursive == 1:
-        print('This does not work right now')
+        for i in range(2, len(okaysites)):
+            temp = okaysites[i] + '/' # Take URL of found site and add /
+            runSites(temp, wordlist, okaysites) # Run again with new site
 
     currenttime = time.time() - currenttime # New time after all searches
     print('Time: ', round(currenttime, 2), 's')
 
-def runSites(website, wordlist):
-    okaysites = ['']
+def runSites(website, wordlist, okaysites):
     for i in range(0, len(wordlist)):
         s = website + wordlist[i] # Check site + wordlist. https://example.com/api <-- Example
         r = requests.get(s) # Make a HTTP requst
@@ -65,6 +66,8 @@ def runSites(website, wordlist):
             print(x)
 
         print(i+1 , ' of ' , len(wordlist))
+    
+    return okaysites
 
 def checkForErrorsInStartup(website, wordlist):
     # Check if wordlist exists
