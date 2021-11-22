@@ -50,7 +50,8 @@ def main(argv):
     if recursive == 1:
         for i in range(2, len(okaysites)):
             temp = okaysites[i] + '/' # Take URL of found site and add /
-            runSites(temp, wordlist, okaysites) # Run again with new site
+            tempsite = Website(temp, argv[2])
+            runSites(tempsite, wordlist, okaysites) # Run again with new site
 
     currenttime = time.time() - currenttime # New time after all searches
     print('Time: ', round(currenttime, 2), 's')
