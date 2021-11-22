@@ -35,7 +35,7 @@ def main(argv):
 
     wordlist = [''] # All words from wordlistfile
 
-    website.url = checkForErrorsInStartup(website) # Check for errors in URL typing
+    website.url = checkUrlAndFile(website) # Check for errors in URL typing
 
     # Save all words to wordlist array
     with open(website.wordlistfile, 'r') as  f:
@@ -75,7 +75,7 @@ def runSites(Website, wordlist, okaysites):
     
     return okaysites
 
-def checkForErrorsInStartup(Website):
+def checkUrlAndFile(Website):
     # Check if wordlist exists
     try:
         open(Website.wordlistfile)
