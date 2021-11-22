@@ -15,9 +15,14 @@ import sys
 import requests
 import time
 
+class Website:
+    def __init__(self, url, wordlistfile):
+        self.url = url
+        self.wordlistfile = wordlistfile
+
 def main(argv):
-    website = sys.argv[1]
-    wordlistfile = sys.argv[2]
+    website = Website(sys.argv[1], sys.argv[2])
+
     recursive = ''
     okaysites = [''] # Save found sites
 
@@ -28,12 +33,12 @@ def main(argv):
         else:
             recursive = 0
 
-    wordlist = [''] # All words from wordlist
+    wordlist = [''] # All words from wordlistfile
 
-    website = checkForErrorsInStartup(website, wordlistfile) # Check for errors in URL typing
+    website.url = checkForErrorsInStartup(website) # Check for errors in URL typing
 
     # Save all words to wordlist array
-    with open(wordlistfile, 'r') as  f:
+    with open(website.wordlistfile, 'r') as  f:
         for line in f.readlines():
             wordlist.append(line.replace('\n', ''))
 
@@ -50,9 +55,9 @@ def main(argv):
     currenttime = time.time() - currenttime # New time after all searches
     print('Time: ', round(currenttime, 2), 's')
 
-def runSites(website, wordlist, okaysites):
+def runSites(Website, wordlist, okaysites):
     for i in range(0, len(wordlist)):
-        s = website + wordlist[i] # Check site + wordlist. https://example.com/api <-- Example
+        s = Website.url + wordlist[i] # Check site + wordlist. https://example.com/api <-- Example
         r = requests.get(s) # Make a HTTP requst
 
         print(chr(27) + "[2J") # Make the output a bit prettier
@@ -69,31 +74,32 @@ def runSites(website, wordlist, okaysites):
     
     return okaysites
 
-def checkForErrorsInStartup(website, wordlist):
+def checkForErrorsInStartup(Website):
     # Check if wordlist exists
     try:
-        open(wordlist)
+        open(Website.wordlistfile)
     except:
         print('File not found!')
         sys.exit(1)
 
     try:
         # Add a / in the end of URL
-        if website[-1] != '/':
-            website = website + '/'
+        if Website.url[-1] != '/':
+            Website.url = Website.url + '/'
 
         # Add http or https to URL
-        if website.find('http://', 0, 7) == -1 and website.find('https://', 0, 8) == -1:
+        if Website.url.find('http://', 0, 7) == -1 and Website.url.find('https://', 0, 8) == -1:
             print('Did not find HTTP, adding for you. Running in 2 sec again.')
-            website = 'http://' + website
+            Website.url = 'http://' + Website.url
             time.sleep(2)
 
-        requests.get(website)
+        print('Here')
+        requests.get(Website.url)
     except:
         print('Failed to find website!')
         sys.exit(2)
 
-    return website
+    return Website.url
 
 if __name__ == '__main__':
     # Check so program got an input, tell how it works
